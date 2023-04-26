@@ -1,0 +1,99 @@
+.kame_button_light_blue {
+	display: block;
+	text-align: center;
+	background: transparent;
+	text-decoration: none;
+	margin: auto;
+    width: 600px;
+	padding: 0rem 6rem;
+	font-weight: bold;
+	border: 2px solid #27acd9;
+	color: #27acd9;
+	transition: 0.5s;
+}
+.kame_button_light_blue:hover {
+	color: #fff;
+	background: #27acd9;
+}
+
+.kame_button_blue {
+	display: block;
+	text-align: center;
+	text-decoration: none;
+	background: transparent;
+	margin: auto;
+    width: 300px;
+	padding: 0rem 6rem;
+	font-weight: bold;
+	border: 2px solid #313db8;
+	color: #313db8;
+	transition: 0.5s;
+}
+.kame_button_blue:hover {
+	color: #fff;
+	background: #313db8;
+}
+
+
+.kame_button_orange {
+	display: block;
+	text-align: center;
+	text-decoration: none;
+	margin: auto;
+    width: 300px;
+	padding: 0rem 6rem;
+	font-weight: bold;
+	border: 2px solid orange;
+	color: orange;
+	transition: 0.5s;
+}
+.kame_button_orange:hover {
+	color: #fff;
+	background: orange;
+}
+
+.kame_button_black {
+	display: block;
+	text-align: center;
+	text-decoration: none;
+	margin: auto;
+    width: 300px;
+	padding: 0rem 6rem;
+	font-weight: bold;
+	border: 2px solid black;
+	color: black;
+	transition: 0.5s;
+}
+.kame_button_black:hover {
+	color: #fff;
+	background: black;
+}
+
+.kame_button_posts {
+	text-align: center;
+	margin:10px;
+	background: transparent;
+	width: 400px;
+	aspect-ratio: 4/1;
+	border: 2px solid #27acd9;
+	color: black;
+	transition: 0.5s;
+}
+.kame_button_posts:hover {
+	color: #fff;
+	background: #27acd9;
+}
+
+
+
+.kame_button_black_no_hover {
+	display: block;
+	text-align: center;
+	text-decoration: none;
+	margin: auto;
+    width: 300px;
+	padding: 0rem 6rem;
+	font-weight: bold;
+	border: 2px solid black;
+	color: black;
+}
