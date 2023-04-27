@@ -22,6 +22,7 @@ function ReservationDetail() {
     event.preventDefault();
     event.returnValue = '';
   }
+  
   const ReservationInfo = useContext(InfoContext);
   const [isloaded, setIsLoaded] = useState(false)
 

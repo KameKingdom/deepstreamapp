@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Footer, Header } from '../PageParts'
 import { Link } from 'react-router-dom'
-import { InfoContext } from '../App';
+import { InfoContext, ReservationContext } from '../App';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import "../css/kame.css";
@@ -31,8 +31,6 @@ function Reservation() {
             IsAvailableReservationDay.push(true);
         }
     }
-
-
     useEffect(() => {
         async function findFirestoreData() {
             try {
@@ -53,10 +51,6 @@ function Reservation() {
                     })
                 );
                 setReserve(newData);
-                console.log(newData);
-                console.log(dayOfWeek);
-                console.log("IsAvailableReservationDay:" + IsAvailableReservationDay);
-                console.log("今日の曜日" + DayOfWeekStr);
                 setLoading(false);
             } catch (error) {
                 console.error(error);
@@ -99,7 +93,9 @@ function Reservation() {
                                 {IsAvailableReservationDay[num] ?
                                     (reserve[num + 1][index] ? (
                                         <Link to="/reservationdetail" onClick={() => {
-                                            ReservationInfo.WeekDay = weekday; ReservationInfo.TimeSlot = timeslot; ReservationInfo.Time = TimeList[index];
+                                            ReservationInfo.NickName = reserve[num + 1][index];
+                                            ReservationInfo.Day = TimeList[index];
+                                            ReservationInfo.TimeSlot = timeslot;
                                         }} style={{ color: "black", background: "white" }}>{reserve[num + 1][index]}</Link>
                                     ) : (
                                         <Link to="/addreservation" onClick={() => {

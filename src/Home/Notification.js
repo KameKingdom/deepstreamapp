@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Footer, Header } from '../PageParts'
-import { collection, getDocs, onSnapshot, query, setDoc, updateDoc } from 'firebase/firestore';
+import { collection, onSnapshot, query, setDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 // get our fontawesome imports
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,16 +10,20 @@ function Notification() {
     //firestoreのPostsから情報を取得する
     const [FilePosts, setQuestionPosts] = useState([]);
     useEffect(() => {
-        async function fetchQuestionPosts() {
-            const FilePostsCollection = collection(db, 'NotificationPosts');
-            const FilePostsSnapshot = await getDocs(FilePostsCollection);
-            const FilePostsData = FilePostsSnapshot.docs.map((doc) => ({
+        const FilePostsCollection = collection(db, 'NotificationPosts');
+        const q = query(FilePostsCollection);
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+            const FilePostsData = querySnapshot.docs.map((doc) => ({
                 id: doc.id,
                 ...doc.data(),
             }));
+            console.log('Firestoreのデータ読み取り完了:', FilePostsData);
             setQuestionPosts(FilePostsData);
+        });
+
+        return () => {
+            unsubscribe();
         }
-        fetchQuestionPosts();
     }, []);
 
     const PostCategory = ["kame_memo", "kame_exclamation", "kame_question", "kame_check"]
@@ -37,6 +41,7 @@ function Notification() {
                     </div>
                 </>
             ))}
+
             <Footer />
         </>
     )

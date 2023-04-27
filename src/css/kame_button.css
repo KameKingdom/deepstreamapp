@@ -4,13 +4,14 @@
 	background: transparent;
 	text-decoration: none;
 	margin: auto;
-    width: 600px;
+	width: 600px;
 	padding: 0rem 6rem;
 	font-weight: bold;
 	border: 2px solid #27acd9;
 	color: #27acd9;
 	transition: 0.5s;
 }
+
 .kame_button_light_blue:hover {
 	color: #fff;
 	background: #27acd9;
@@ -22,13 +23,14 @@
 	text-decoration: none;
 	background: transparent;
 	margin: auto;
-    width: 300px;
+	width: 300px;
 	padding: 0rem 6rem;
 	font-weight: bold;
 	border: 2px solid #313db8;
 	color: #313db8;
 	transition: 0.5s;
 }
+
 .kame_button_blue:hover {
 	color: #fff;
 	background: #313db8;
@@ -40,13 +42,14 @@
 	text-align: center;
 	text-decoration: none;
 	margin: auto;
-    width: 300px;
+	width: 300px;
 	padding: 0rem 6rem;
 	font-weight: bold;
 	border: 2px solid orange;
 	color: orange;
 	transition: 0.5s;
 }
+
 .kame_button_orange:hover {
 	color: #fff;
 	background: orange;
@@ -57,13 +60,14 @@
 	text-align: center;
 	text-decoration: none;
 	margin: auto;
-    width: 300px;
+	width: 300px;
 	padding: 0rem 6rem;
 	font-weight: bold;
 	border: 2px solid black;
 	color: black;
 	transition: 0.5s;
 }
+
 .kame_button_black:hover {
 	color: #fff;
 	background: black;
@@ -71,7 +75,7 @@
 
 .kame_button_posts {
 	text-align: center;
-	margin:10px;
+	margin: 10px;
 	background: transparent;
 	width: 400px;
 	aspect-ratio: 4/1;
@@ -79,6 +83,7 @@
 	color: black;
 	transition: 0.5s;
 }
+
 .kame_button_posts:hover {
 	color: #fff;
 	background: #27acd9;
@@ -91,9 +96,27 @@
 	text-align: center;
 	text-decoration: none;
 	margin: auto;
-    width: 300px;
+	width: 300px;
 	padding: 0rem 6rem;
 	font-weight: bold;
 	border: 2px solid black;
 	color: black;
+}
+
+.kame_button_001 {
+	width: 150px;
+	padding: 8px 16px;
+	background-color: #ddffea;
+	border: 1px solid #555555;
+	border-radius: 4px;
+	font-size: 30px;
+	font-weight: 600;
+	color: #555555;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.kame_button_001:hover {
+	background-color: #555555;
+	color: #ffffff;
 }

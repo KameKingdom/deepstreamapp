@@ -1,35 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { Footer, Header } from '../PageParts';
 import "../css/kame.css";
-import { collection, deleteDoc, doc, getDoc, onSnapshot, query, setDoc, updateDoc } from 'firebase/firestore';
-import { db } from '../firebase';
+import { collection, deleteDoc, doc, getDoc, query, updateDoc } from 'firebase/firestore';
+import { auth, db } from '../firebase';
 import moment from 'moment';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 function HomePage() {
-    const [show, setShow] = useState(true);
-
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setShow(false);
-        }, 3000);
-
+    /* スプラッシュスクリーンの表示設定 */
+    const [show, setShow] = useState(true); // スプラッシュスクリーンをshowするか否か
+    const [user] = useAuthState(auth);
+    useEffect(() => { // 3000m秒だけ表示する
+        const timer = setTimeout(() => { setShow(false); }, 3000);
         return () => clearTimeout(timer);
     }, []);
 
-    const [isResetDate, setIsResetDate] = useState(false)
+    /* データの取得 */
     useEffect(() => {
         async function fetchFirestoreData() {
             const docRef = doc(db, "Setting", "Reservation");
             const docSnap = await getDoc(docRef);
-            // 現在の日付を取得
-            const today = moment();
-            // 週の月曜日を取得
-            const monday = today.clone().startOf('isoWeek');
+            const today = moment(); // 現在の日付を取得
+            const monday = today.clone().startOf('isoWeek'); // 週の月曜日を取得
             if (docSnap.exists()) {
                 const docData = docSnap.data();
-                if (docData.LastResetDate === monday.format('YYYYMMDD')) {
-                    // リセットしない
-                } else { // リセットする
+                if (docData.LastResetDate !== monday.format('YYYYMMDD')) {
                     console.log("Reset Reservation Data")
                     await updateDoc(doc(db, "Setting", "Reservation"), {
                         LastResetDate: monday.format('YYYYMMDD')
@@ -49,11 +44,10 @@ function HomePage() {
                     // 予約ユーザーの予約回数をリセット
                     const usersRef = collection(db, 'users');
                     const reservationNumQuery = query(usersRef);
-                    onSnapshot(reservationNumQuery, (snapshot) => {
-                        snapshot.docs.forEach((doc) => {
-                            const userDocRef = doc.ref;
-                            updateDoc(userDocRef, { ReservationNum: 0 });
-                        });
+                    const snapshot = await reservationNumQuery.get();
+                    snapshot.docs.forEach(async (doc) => {
+                        const userDocRef = doc.ref;
+                        await updateDoc(userDocRef, { ReservationNum: 0 });
                     });
                     console.log("fin")
                 }
@@ -63,7 +57,7 @@ function HomePage() {
     }, []);
 
 
-    return (show ? (
+    return (show && user ? (
         <div>
             <body class="mobile-hidden" />
             <div id="container">

@@ -28,6 +28,7 @@ function Header() {
                     </nav>
                 </div>
             </header>
+            <div class="empty-header-3"/>
         </>
     )
 }
@@ -37,6 +38,7 @@ function Footer() {
 
     return (
         <>
+            <div class="empty-header-3"/>
             {
                 user ?
                     <>

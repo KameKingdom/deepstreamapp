@@ -5,7 +5,6 @@ import Register from "./Register/Register";
 import TermsOfService from "./Document/TermsOfService";
 import RegisterInfo001 from "./Register/RegisterInfo001";
 import RegisterInfo002 from "./Register/RegisterInfo002";
-import Contact from "./Home/Contact";
 import Calendar from "./Home/Calendar";
 import Reservation from "./Home/Reservation";
 import Notification from "./Home/Notification";
@@ -17,7 +16,6 @@ import AdminEventPost from "./Administrator/AdminEventPost";
 import AdminHome from "./Administrator/AdminHome";
 import AdminLogin from "./Administrator/AdminLogin";
 import AlertReservation from "./Reservation/AlertReservation";
-import AdminSchedule from "./Administrator/AdminSchedulePost";
 import AdminSchedulePost from "./Administrator/AdminSchedulePost";
 import ScheduleDetail from "./Schedule/ScheduleDetail";
 
@@ -25,14 +23,35 @@ const Info = {
   WeekDay: "",
   TimeSlot: "",
   Time: "",
-  EventMonth: "",
-  Eventday: "",
 };
 
-const ScheduleInfo = {
-
+const SettingInfo = {
+  Year: "2023"
 }
+
+const ScheduleInfo = {
+  Month: "",
+  Date: "",
+  Day: "",
+  Title: "",
+  Content: "",
+  Link: "",
+  Category: "",
+}
+
+const ReservationInfo = {
+  NickName: "",
+  UserEmail: "",
+  TimeSlot: "",
+  Day: "",
+  Category: "",
+  Memo: "",
+}
+
 export const InfoContext = createContext(Info);
+export const ScheduleContext = createContext(ScheduleInfo);
+export const ReservationContext = createContext(ReservationInfo);
+export const SettingContext = createContext(SettingInfo);
 
 function App() {
   return (
@@ -55,7 +74,6 @@ function App() {
           <Route exact path="/notification" element={<Notification />}></Route>
           <Route exact path="/tool" element={<Tool />}></Route>
 
-          <Route exact path="/contact" element={<Contact />}></Route>
           <Route exact path="/login" element={<Login />}></Route>
 
           <Route exact path="/login" element={<Login />}></Route>
