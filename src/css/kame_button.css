@@ -3,23 +3,28 @@
 	text-align: center;
 	background: transparent;
 	text-decoration: none;
+	border-radius: 20px;
 	margin: auto;
 	width: 600px;
 	padding: 0rem 6rem;
 	font-weight: bold;
-	border: 2px solid #27acd9;
-	color: #27acd9;
+	font-size: 1.2em;
+	border: 6px solid var(--main-button-color);
+	color: var(--main-button-color);
 	transition: 0.5s;
+	box-shadow:#ddffea;
 }
 
 .kame_button_light_blue:hover {
 	color: #fff;
-	background: #27acd9;
+	background: var(--main-button-color);
 }
 
 .kame_button_blue {
 	display: block;
 	text-align: center;
+	border-radius: 20px;
+
 	text-decoration: none;
 	background: transparent;
 	margin: auto;
@@ -40,6 +45,7 @@
 .kame_button_orange {
 	display: block;
 	text-align: center;
+	border-radius: 20px;
 	text-decoration: none;
 	margin: auto;
 	width: 300px;
@@ -59,6 +65,7 @@
 	display: block;
 	text-align: center;
 	text-decoration: none;
+	border-radius: 20px;
 	margin: auto;
 	width: 300px;
 	padding: 0rem 6rem;
@@ -106,7 +113,7 @@
 .kame_button_001 {
 	width: 150px;
 	padding: 8px 16px;
-	background-color: #ddffea;
+	background-color: #e4e4e4;
 	border: 1px solid #555555;
 	border-radius: 4px;
 	font-size: 30px;

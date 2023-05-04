@@ -2,7 +2,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #cceeff;
+  background-color: #b7c5db;
+  border-right: 1px solid #ffffff;
   height: 8vh;
   padding: 0 20px;
   position: fixed;
@@ -13,13 +14,13 @@
 
 .tab {
   text-decoration: none;
-  font-size: 1.5vh;
-  color: #000000;
-  font-weight: bold;
+  font-size: 1.7vh;
+  color: black;
+  font-weight: 600;
   text-align: center;
   flex-basis: 0;
   flex-grow: 1;
-  border-right: 1px solid #000000;
+  border-right: 1px solid black;
 }
 
 .tab:last-child {

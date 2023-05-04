@@ -6,13 +6,13 @@ import { getFirestore } from "firebase/firestore"
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCrDQfVrmyQtzyhC8EA3gHLIqzh-N0g0Ac",
-  authDomain: "deep-stream-8a085.firebaseapp.com",
-  projectId: "deep-stream-8a085",
-  storageBucket: "deep-stream-8a085.appspot.com",
-  messagingSenderId: "927725373077",
-  appId: "1:927725373077:web:a51b56a527f6fcf03e7d9c",
-  measurementId: "G-RTXDHEQ2MM"
+  apiKey: "AIzaSyCg2Hvah_OHX5K2Kq0fWpSeoYE3edd5Dyc",
+  authDomain: "deep-stream-ksc.firebaseapp.com",
+  projectId: "deep-stream-ksc",
+  storageBucket: "deep-stream-ksc.appspot.com",
+  messagingSenderId: "523585296072",
+  appId: "1:523585296072:web:9b3e9e64b5d5adbbfeb7fd",
+  measurementId: "G-47KHXBKBVN"
 };
 
 const app = initializeApp(firebaseConfig);

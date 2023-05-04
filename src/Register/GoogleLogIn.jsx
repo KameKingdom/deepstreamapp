@@ -34,7 +34,7 @@ function SignInButton() {
 
     return (
         <button onClick={signInWithGoogle}>
-            <p class="kame_font_001">LogIn with Google</p>
+            <p class="kame_font_001">Google</p>
         </button>
     );
 }
@@ -43,7 +43,7 @@ function SignOutButton() {
     return (
         <>
             <button onClick={() => auth.signOut()} class="kame_button_ligh_blue">
-                <p class="kame_font_001">Sign Out</p>
+                <p class="kame_font_001">サインアウト</p>
             </button>
             <br />
         </>
@@ -84,11 +84,14 @@ function IsAlreadyRegistered() {
                         <title>本人情報</title>
                     </Helmet>
                     <img class="img_circle" src={auth.currentUser.photoURL} alt="ユーザー画像" /><br /><br />
-                    ようこそ、{auth.currentUser.displayName}さん
+                    <p className='kame_font_001'>ようこそ、{auth.currentUser.displayName}さん</p>
                     <br /><br />
                     <Link class="kame_button_light_blue" to="/register001">
                         <p class="kame_font_001">情報の修正</p>
                     </Link>
+                    <br />
+                    <Link to="/" className='kame_button_light_blue'><p className='kame_font_001'>ホーム</p></Link>
+
                     <br />
                     <SignOutButton />
                 </>

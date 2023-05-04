@@ -10,7 +10,7 @@ import Reservation from "./Home/Reservation";
 import Notification from "./Home/Notification";
 import Tool from "./Home/Tool";
 import AddReservation from "./Reservation/AddReservation";
-import { createContext } from "react";
+import { createContext, useCallback, useEffect } from "react";
 import ReservationDetail from "./Reservation/ReservationDetail";
 import AdminEventPost from "./Administrator/AdminEventPost";
 import AdminHome from "./Administrator/AdminHome";
@@ -18,12 +18,6 @@ import AdminLogin from "./Administrator/AdminLogin";
 import AlertReservation from "./Reservation/AlertReservation";
 import AdminSchedulePost from "./Administrator/AdminSchedulePost";
 import ScheduleDetail from "./Schedule/ScheduleDetail";
-
-const Info = {
-  WeekDay: "",
-  TimeSlot: "",
-  Time: "",
-};
 
 const SettingInfo = {
   Year: "2023"
@@ -40,15 +34,15 @@ const ScheduleInfo = {
 }
 
 const ReservationInfo = {
-  NickName: "",
-  UserEmail: "",
-  TimeSlot: "",
-  Day: "",
-  Category: "",
-  Memo: "",
+  NickName: "",   // 予約ユーザー名(v)
+  UserEmail: "",  // 予約メール
+  WeekDay: "",    // 曜日(v)
+  TimeSlot: "",   // 時間帯(「朝練」的な)(v)
+  Time: "",        // 時間帯(「9:00 ~ 10:00」的な)(v)
+  Category: "",   // カテゴリ
+  Memo: "",       // メモ
 }
 
-export const InfoContext = createContext(Info);
 export const ScheduleContext = createContext(ScheduleInfo);
 export const ReservationContext = createContext(ReservationInfo);
 export const SettingContext = createContext(SettingInfo);
@@ -88,4 +82,24 @@ function App() {
   );
 }
 
-export { App };
+function useBlockBrowserBack() {
+  const blockBrowserBack = useCallback(() => {
+    alert("このページはブラウザバックが禁止されています。");
+    window.history.go(1)
+  }, [])
+  useEffect(() => {
+    const handleBlockBrowserBack = (event) => {
+      event.preventDefault();
+      blockBrowserBack();
+    };
+
+    window.history.pushState(null, '', window.location.href);
+    window.addEventListener('popstate', handleBlockBrowserBack);
+
+    return () => {
+      window.removeEventListener('popstate', handleBlockBrowserBack);
+    };
+  }, []);
+}
+
+export { App, useBlockBrowserBack };

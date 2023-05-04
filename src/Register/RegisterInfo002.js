@@ -34,40 +34,47 @@ function RegisterInfo002() {
         setStudentNumber(docData.StudentNumber);
         setNickName(docData.NickName);
       }
+      setLoading(false);
     }
     fetchFirestoreData();
-    setLoading(false);
   }, []);
-  if (loading) { return <div class="loader">Loading...</div> }
-
 
   return (
     <>
-      <br /><h1 class="kame_header_003" />
+
       <center>
-        <p class="kame_font_004">情報の確認</p><br />
-        <table class="kame_table_001">
-          <tr>
-            <th>氏名</th>
-            <td>{PersonalName}({PersonalNameFurigana})</td>
-          </tr>
-          <tr>
-            <th>学籍番号</th>
-            <td>{StudentNumber}</td>
-          </tr>
-          <tr>
-            <th>ニックネーム</th>
-            <td>{NickName}</td>
-          </tr>
-        </table>
+        <p class="kame_font_004">情報の確認</p>
+        {
+          loading ?
+            <>
+              <div class="loader">Loading...</div>
+            </>
+            :
+            <>
+              <table class="kame_table_001">
+                <tr>
+                  <th>氏名</th>
+                  <td>{PersonalName}({PersonalNameFurigana})</td>
+                </tr>
+                <tr>
+                  <th>学籍番号</th>
+                  <td>{StudentNumber}</td>
+                </tr>
+                <tr>
+                  <th>ニックネーム</th>
+                  <td>{NickName}</td>
+                </tr>
+              </table>
+            </>
+        }
         <br /><br />
         <Link to="/register001">
-          <button class="kame_button_blue">
+          <button class="kame_button_light_blue">
             <p class="kame_font_002">修正</p>
           </button>
         </Link><br />
         <Link to="/">
-          <button class="kame_button_blue">
+          <button class="kame_button_light_blue">
             <p class="kame_font_002">完了</p>
           </button>
         </Link>

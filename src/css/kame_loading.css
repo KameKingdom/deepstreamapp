@@ -1,5 +1,5 @@
 .loader {
-    color: #00b5ad;
+    color: var(--main-button-color);
     font-size: 90px;
     text-indent: -9999em;
     overflow: hidden;

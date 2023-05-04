@@ -1,21 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Footer, Header } from '../PageParts'
-import { InfoContext, ScheduleContext } from '../App'
+import { InfoContext, ScheduleContext, useBlockBrowserBack } from '../App'
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 
 function ScheduleDetail() {
-    // リロード禁止
-    useEffect(() => {
-        window.addEventListener('beforeunload', handleWindowClose);
-        return () => {
-            window.removeEventListener('beforeunload', handleWindowClose);
-        }
-    }, []);
-    const handleWindowClose = (event) => {
-        event.preventDefault();
-        event.returnValue = '';
-    }
+    useBlockBrowserBack();
     /* スケジュール情報変数 */
     const ScheduleInfo = useContext(ScheduleContext); // 共有変数の取得
 

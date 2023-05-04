@@ -1,25 +1,26 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Footer, Header } from '../PageParts'
 import { Link } from 'react-router-dom'
-import { InfoContext, ReservationContext } from '../App';
+import { ReservationContext } from '../App';
 import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../firebase';
+import { auth, db } from '../firebase';
 import "../css/kame.css";
 
 function Reservation() {
-    const linkStyle = { opacity: 0, display: 'block', width: '70%', height: '70%', color: "black", background: "white" };
+    const linkStyle = { color: "#e4e4e4", background: "white", fontSize: "2.3em" };
+    const starStyle = { color: "#acacac", background: "white", fontSize: "1.9em" };
+
     const [loading, setLoading] = useState(true);
-    const ReservationInfo = useContext(InfoContext);
+    const ReservationInfo = useContext(ReservationContext);
 
-
-    const TimeSlotList = ["朝練", "1限", "チャペル", "2限", "昼休み", "3限", "4限", "5限", "放課後1", "放課後2"];
-    const TimeList = ["8:00 ~ 8:50", "9:00 ~ 10:30", "10:40 ~ 11:00", "11:10 ~ 12:40", "12:50 ~ 13:20", "13:30 ~ 15:00", "15:10 ~ 16:40", "16:50 ~ 18:20", "18:30 ~ 19:40", "19:50 ~ 21:00"];
-    const WeekDayList = ["　　　　", "月", "火", "水", "木", "金", "土", "日"];
-    const DAYOFWEEKSTR = ["月", "火", "水", "木", "金", "土", "日"];
+    const TimeSlotList = ["朝練", "１限", "チャペル", "２限", "昼練", "３限", "４限", "５限", "夜練Ⅰ", "夜練Ⅱ"];
+    const TimeList = ["8:00 ~ 8:50", "9:00 ~ 10:40", "10:40 ~ 11:10", "11:10 ~ 12:50", "12:50 ~ 13:30", "13:30 ~ 15:10", "15:20 ~ 17:00", "17:05 ~ 18:45", "18:50 ~ 19:50", "20:00 ~ 21:00"];
+    const WeekDayList = ["　　　　", "日", "月", "火", "水", "木", "金", "土"];
+    const DAYOFWEEKSTR = ["日", "月", "火", "水", "木", "金", "土"];
 
     var date = new Date();
     var dayOfWeek = date.getDay();
-    var DayOfWeekStr = DAYOFWEEKSTR[(dayOfWeek + 6) % 7];
+    var DayOfWeekStr = DAYOFWEEKSTR[dayOfWeek];
     const [reserve, setReserve] = useState(null);
     const DayOfWeekStrIndex = DAYOFWEEKSTR.indexOf(DayOfWeekStr);
     const IsAvailableReservationDay = [];
@@ -42,7 +43,7 @@ function Reservation() {
                                 const docSnap = await getDoc(docRef);
                                 if (docSnap.exists()) {
                                     const docData = docSnap.data();
-                                    return docData.NickName;
+                                    return docData.PostUserMail;
                                 } else {
                                     return false;
                                 }
@@ -59,15 +60,18 @@ function Reservation() {
         findFirestoreData();
     }, []);
 
+    function setReservationInfo(weekday, timeslot, time) {
+        ReservationInfo.WeekDay = weekday;
+        ReservationInfo.TimeSlot = timeslot;
+        ReservationInfo.Time = time;
+    }
+
 
     if (loading) {
         return (
             <>
                 <Header />
-                <br /><br /><br /><br />
-                <br /><br /><br /><br />
-                <br /><br /><br /><br />
-                <br /><br /><br /><br />
+                {[...Array(8)].map((a, i) => <br key={i} />)}
                 <div class="loader">Loading...</div>
                 <Footer />
             </>
@@ -78,50 +82,42 @@ function Reservation() {
             <Header />
 
             <table border="0" class="kame_table_003">
-                <tr>
-                    {WeekDayList.map((weekday, num) =>
-                        IsAvailableReservationDay[(num + 6) % 7] ?
-                            <th style={{ color: "black" }}>{weekday}</th> :
-                            <th style={{ color: "#B1B3B6" }}>{weekday}</th>
-                    )}
-                </tr>
+                <th>&emsp;&emsp;&emsp;&emsp;</th>{/* 左上 */}
+                {DAYOFWEEKSTR.map((weekday, index) =>
+                    IsAvailableReservationDay[index] ?
+                        <th style={{ color: weekday === "土" ? "blue" : weekday === "日" ? "red" : "black" }}>{weekday}</th> :
+                        <th style={{ color: weekday === "土" ? "#87cefa" : weekday === "日" ? "#ffc0cb" : "#c0c0c0" }}>{weekday}</th>
+                )}
                 {TimeSlotList.map((timeslot, index) =>
                     <tr>
                         <td>{timeslot}</td>
                         {DAYOFWEEKSTR.map((weekday, num) => (
                             <td key={num} style={{ padding: 0 }}>
-                                {IsAvailableReservationDay[num] ?
-                                    (reserve[num + 1][index] ? (
-                                        <Link to="/reservationdetail" onClick={() => {
-                                            ReservationInfo.NickName = reserve[num + 1][index];
-                                            ReservationInfo.Day = TimeList[index];
-                                            ReservationInfo.TimeSlot = timeslot;
-                                        }} style={{ color: "black", background: "white" }}>{reserve[num + 1][index]}</Link>
+                                {IsAvailableReservationDay[num] && (
+                                    reserve[num + 1][index] === auth.currentUser.email ? (
+                                        <Link to="/reservationdetail" onClick={() => setReservationInfo(weekday, timeslot, TimeList[index])} style={starStyle}>★</Link>
                                     ) : (
-                                        <Link to="/addreservation" onClick={() => {
-                                            ReservationInfo.WeekDay = weekday; ReservationInfo.TimeSlot = timeslot; ReservationInfo.Time = TimeList[index];
-                                        }} style={linkStyle}>リンク</Link>
-                                    ))
-
-                                    :
-                                    (reserve[num + 1][index] ? (
-                                        <Link to="/alertreservation" onClick={() => {
-                                            ReservationInfo.WeekDay = weekday; ReservationInfo.TimeSlot = timeslot; ReservationInfo.Time = TimeList[index];
-                                        }} style={{ color: "black", background: "white" }}>{reserve[num + 1][index]}</Link>
-                                    ) : (
-                                        <Link to="/alertreservation" onClick={() => {
-                                            ReservationInfo.WeekDay = weekday; ReservationInfo.TimeSlot = timeslot; ReservationInfo.Time = TimeList[index];
-                                        }} style={linkStyle}>リンク</Link>
+                                        reserve[num + 1][index] ? 
+                                        <Link to="/reservationdetail" onClick={() => setReservationInfo(weekday, timeslot, TimeList[index])} style={linkStyle}>×</Link>
+                                        :
+                                        <Link to="/addreservation" onClick={() => setReservationInfo(weekday, timeslot, TimeList[index])} style={linkStyle}>o</Link>
                                     ))
                                 }
-
+                                {!IsAvailableReservationDay[num] && (
+                                    reserve[num + 1][index] === auth.currentUser.email ? (
+                                        <Link to="/alertreservation" onClick={() => setReservationInfo(weekday, timeslot, TimeList[index])} style={starStyle}>★</Link>
+                                    ) : (
+                                        < Link to="/alertreservation" onClick={() => setReservationInfo(weekday, timeslot, TimeList[index])} style={linkStyle}>×</Link>
+                                    ))
+                                }
                             </td>
                         ))}
 
+
                     </tr>
                 )}
-            </table>
-            <a href="http://deepstream.boo.jp/kame_kingdom/Documents/部室利用規約.pdf"><p style={{ fontSize: "2.0em", color: "green" }}>部室の利用規約</p></a>
+            </table >
+            <a href="http://deepstream.boo.jp/kame_kingdom/Documents/2023部室利用規約.pdf"><p style={{ fontSize: "1.7em", color: "green" }}>部室の利用規約</p></a>
             <Footer />
         </>
     )

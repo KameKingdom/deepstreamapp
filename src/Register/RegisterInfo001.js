@@ -1,48 +1,53 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { auth, db } from '../firebase';
 import { Link } from "react-router-dom";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import "../css/kame_register.css"
+import { useBlockBrowserBack } from '../App';
 
 function RegisterInfo001() {
-  // ブラウザバック禁止コード
-  const blockBrowserBack = useCallback(() => {
-    alert("会員登録中はブラウザバックできません。");
-    window.history.go(1)
-  }, [])
-  useEffect(() => {
-    window.history.pushState(null, '', window.location.href)
-    window.addEventListener('popstate', blockBrowserBack)
-    return () => { window.removeEventListener('popstate', blockBrowserBack) }
-  }, [blockBrowserBack])
-
+  useBlockBrowserBack();
   const PersonalName = useRef(null);
   const PersonalName_kana = useRef(null);
   const StudentNum = useRef(null);
   const NickName = useRef(null);
 
-
-
   const [isalreadyuploaded, setIsAlreadyUploaded] = useState(false);
   const [isclicked, setIsClicked] = useState(false)
 
-  const RegisterProcess001 = (PersonalName, PersonalName_kana, StudentNum, NickName) => {
+  const RegisterProcess001 = async (PersonalName, PersonalName_kana, StudentNum, NickName) => {
     setIsAlreadyUploaded(false);
-    setIsClicked(true)
+    setIsClicked(true);
     try {
-      setDoc(doc(db, "users", auth.currentUser.email), {
-        MailAddress: auth.currentUser.email,
-        PersonalName: PersonalName,
-        PersonalNameFurigana: PersonalName_kana,
-        StudentNumber: StudentNum,
-        NickName: NickName,
-      });
-      console.log("データ受信成功001");
+      const docRef = doc(db, "users", auth.currentUser.email);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        console.log("既存アカウントのアップデート");
+        updateDoc(docRef, {
+          PersonalName: PersonalName,
+          PersonalNameFurigana: PersonalName_kana,
+          StudentNumber: StudentNum,
+          NickName: NickName,
+        });
+      } else {
+        console.log("新規アカウントの登録");
+        setDoc(docRef, {
+          MailAddress: auth.currentUser.email,
+          PersonalName: PersonalName,
+          PersonalNameFurigana: PersonalName_kana,
+          StudentNumber: StudentNum,
+          NickName: NickName,
+          ReservationNum: 0
+        });
+      }
+      console.log("会員登録成功");
       setIsAlreadyUploaded(true);
     } catch {
-      console.log("データ受信失敗001");
+      console.log("会員登録失敗");
+      console.error();
     }
-  }
+  };
+
 
   // 全部埋めると次に進めるようになる用変数
   const [value1, setValue1] = useState("");
@@ -58,15 +63,14 @@ function RegisterInfo001() {
   const handleInput2 = (event) => {
     const inputValue = event.target.value;
     setValue2(inputValue);
-    if (/[^ァ-ヶー]/u.test(inputValue)) { setError2("カタカナで入力してください"); }
+    if (/[^ァ-ヶー \s]/u.test(inputValue)) { setError2("※カタカナで入力してください"); }
     else { setError2(""); }
   }
   const handleInput3 = (event) => {
     const inputValue = event.target.value;
-    console.log(inputValue);
     setValue3(inputValue);
     if (inputValue.length === 8) { setError3(""); }
-    else { setError3("8桁の半角数字で入力して下さい"); }
+    else { setError3("※８桁の半角数字で入力して下さい"); }
   }
   const handleInput4 = (event) => { setValue4(event.target.value); }
 
@@ -88,29 +92,33 @@ function RegisterInfo001() {
           <p class="Form-Item-Label"><span class="Form-Item-Label-Required" >必須</span>氏名(フリガナ)</p>
           <input type="text" class="Form-Item-Input" placeholder="例）ディープストリームタロウ" name="PersonalName_kana" ref={PersonalName_kana} value={value2} onChange={handleInput2} />
         </div>
-        {error2 && <p>{error2}</p>}
+        {error2 && <p style={{ color: "red", fontSize: "1.5em" }}>{error2}</p>}
         <div class="Form-Item">
           <p class="Form-Item-Label"><span class="Form-Item-Label-Required" >必須</span>学籍番号</p>
           <input type="number" class="Form-Item-Input" placeholder="例）00000000" ref={StudentNum} name="StudentNumber" value={value3} onChange={handleInput3} />
         </div>
-        {error3 && <p>{error3}</p>}
+        {error3 && <p style={{ color: "red", fontSize: "1.5em" }}>{error3}</p>}
         <div class="Form-Item">
           <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>ニックネーム</p>
           <input type="email" class="Form-Item-Input" placeholder="例）でぃーぷ" name="NickName" ref={NickName} value={value4} onChange={handleInput4} />
         </div>
 
-        {value1 && !(/[^ァ-ヶー]/u.test(value2)) && value3 && value4 && !isalreadyuploaded && !isclicked &&
-          <button class="Form-Btn" onClick={() => RegisterProcess001(PersonalName.current.value, PersonalName_kana.current.value, StudentNum.current.value, NickName.current.value)}>
-            確定
-          </button>
+        {value1 && value2 && value3 && !error2 && !error3 && value4 && !isalreadyuploaded && !isclicked &&
+          <>
+            <br /><br />
+            <button class="Form-Btn" onClick={() => RegisterProcess001(PersonalName.current.value, PersonalName_kana.current.value, StudentNum.current.value, NickName.current.value)}>
+              <p className='kame_font_002'>確定</p>
+            </button>
+          </>
         }
         {
-          isclicked && !isalreadyuploaded && <center><br /><span class="kame_loader"><span class="kame_loader-inner"></span></span><p class="kame_font">登録中…</p></center>
+          isclicked && !isalreadyuploaded && <div class="loader">Loading...</div>
+
         }
         {isalreadyuploaded &&
-          <Link to="/register002">
-            <input type="submit" class="Form-Btn" value="次へ" />
-          </Link>
+          <>
+            <br /><br /><Link to="/register002" className='kame_button_light_blue'><p className='kame_font_002'>確認画面へ</p></Link>
+          </>
         }
       </div>
       <br /><br />

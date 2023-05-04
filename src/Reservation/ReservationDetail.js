@@ -1,31 +1,20 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Footer, Header } from '../PageParts'
-import { InfoContext } from '../App';
+import { ReservationContext, useBlockBrowserBack } from '../App';
 import { deleteDoc, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../firebase';
 import "../css/kame.css";
 import { Link } from 'react-router-dom';
 
 function ReservationDetail() {
-  const DAYOFWEEKSTR = ["月", "火", "水", "木", "金", "土", "日"];
+  const DAYOFWEEKSTR = ["日", "月", "火", "水", "木", "金", "土"];
   var date = new Date();
   var dayOfWeek = date.getDay();
-  var DayOfWeekStr = DAYOFWEEKSTR[(dayOfWeek + 6) % 7];
-  // リロード禁止
-  useEffect(() => {
-    window.addEventListener('beforeunload', handleWindowClose);
-    return () => {
-      window.removeEventListener('beforeunload', handleWindowClose);
-    }
-  }, []);
-  const handleWindowClose = (event) => {
-    event.preventDefault();
-    event.returnValue = '';
-  }
-  
-  const ReservationInfo = useContext(InfoContext);
-  const [isloaded, setIsLoaded] = useState(false)
+  var DayOfWeekStr = DAYOFWEEKSTR[dayOfWeek];
 
+  const ReservationInfo = useContext(ReservationContext);
+  const [isloaded, setIsLoaded] = useState(false)
+  const [isclicked, setIsClicked] = useState(false)
   const [isalreadyDeleted, setIsAlreadyDeleted] = useState(false);
 
   const [category, setCategory] = useState("");
@@ -37,6 +26,7 @@ function ReservationDetail() {
   const [isDeleting, setIsDeleting] = useState(false);
   const [canEdit, setCanEdit] = useState(false);
   const handleClick = async () => {
+    setIsClicked(true)
     try {
       setIsDeleting(true);
       const docRef = doc(db, ReservationInfo.WeekDay, ReservationInfo.TimeSlot);
@@ -60,7 +50,7 @@ function ReservationDetail() {
   useEffect(() => {
     async function fetchFirestoreData() {
       let docRef = doc(db, ReservationInfo.WeekDay, ReservationInfo.TimeSlot);
-      let docSnap = await getDoc(docRef);
+      let docSnap = await getDoc(docRef, { source: 'cache' });
       if (docSnap.exists()) {
         const docData = docSnap.data();
         setCategory(docData.Category);
@@ -69,7 +59,7 @@ function ReservationDetail() {
         setCanEdit(docData.PostUserMail === auth.currentUser.email);
       }
       docRef = doc(db, "users", auth.currentUser.email);
-      docSnap = await getDoc(docRef);
+      docSnap = await getDoc(docRef, { source: 'cache' });
       if (docSnap.exists()) {
         const docData = docSnap.data();
         setReservationNum(docData.ReservationNum);
@@ -83,10 +73,7 @@ function ReservationDetail() {
     return (
       <>
         <Header />
-        <br /><br /><br /><br />
-        <br /><br /><br /><br />
-        <br /><br /><br /><br />
-        <br /><br /><br /><br />
+        {[...Array(8)].map((a, i) => <br key={i} />)}
         <div class="loader">Loading...</div>
         <Footer />
       </>
@@ -119,16 +106,17 @@ function ReservationDetail() {
           <br /><br /><br />
         </center>
 
-        {canEdit && !isalreadyDeleted &&
+        {canEdit && !isalreadyDeleted && !isclicked &&
           <button class="kame_button_black" onClick={handleClick} disabled={isDeleting}><p class="kame_font_002">消去</p></button>
         }
-        {console.log("canedit:" + canEdit)}
-        {console.log("isalreadydeleted:" + isalreadyDeleted)}
-        {isDeleting && !isalreadyDeleted &&
-          <p class="kame_font_002">'削除中...'</p>
+        {isDeleting && !isalreadyDeleted && isclicked &&
+          <div class="loader">Loading...</div>
         }
         {isloaded && isalreadyDeleted &&
           <Link to="/reservation" class="kame_button_black"><p class="kame_font_002">完了</p></Link>
+        }
+        {!canEdit &&
+          <Link class="kame_button_light_blue" to="/reservation"><p className='kame_font_002'>部室予約へ</p></Link>
         }
 
         <Footer />

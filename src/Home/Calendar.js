@@ -31,26 +31,19 @@ const Calendar = (props) => {
         setCurrentMonth(month);
     };
 
-
     return (
         <>
             <Header />
-            <div>
-                <center>
-                    <button className="kame_button_001" onClick={() => handleClick(1)}>1月</button>
-                    <button className="kame_button_001" onClick={() => handleClick(2)}>2月</button>
-                    <button className="kame_button_001" onClick={() => handleClick(3)}>3月</button>
-                    <button className="kame_button_001" onClick={() => handleClick(4)}>4月</button>
-                    <button className="kame_button_001" onClick={() => handleClick(5)}>5月</button>
-                    <button className="kame_button_001" onClick={() => handleClick(6)}>6月</button>
-                    <button className="kame_button_001" onClick={() => handleClick(7)}>7月</button>
-                    <button className="kame_button_001" onClick={() => handleClick(8)}>8月</button>
-                    <button className="kame_button_001" onClick={() => handleClick(9)}>9月</button>
-                    <button className="kame_button_001" onClick={() => handleClick(10)}>10月</button>
-                    <button className="kame_button_001" onClick={() => handleClick(11)}>11月</button>
-                    <button className="kame_button_001" onClick={() => handleClick(12)}>12月</button>
-                </center>
-            </div>
+            <center>
+                <table>
+                    <tr>
+                        {Array.from({ length: 6 }, (_, i) => (<td><button className="kame_button_001" onClick={() => handleClick(i + 1)}>{i + 1}月</button></td>))}
+                    </tr>
+                    <tr>
+                        {Array.from({ length: 6 }, (_, i) => (<td><button className="kame_button_001" onClick={() => handleClick(i + 7)}>{i + 7}月</button></td>))}
+                    </tr>
+                </table>
+            </center>
             {filePosts
                 .filter((filePost) => filePost.month === currentMonth)
                 .map((filePost) => (
