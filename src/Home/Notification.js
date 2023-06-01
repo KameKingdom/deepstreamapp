@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Footer, Header } from '../PageParts'
-import { collection, onSnapshot, orderBy, query, setDoc, updateDoc } from 'firebase/firestore';
+import { collection, limit, onSnapshot, orderBy, query, setDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 // get our fontawesome imports
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,7 +10,7 @@ function Notification() {
     const [FilePosts, setQuestionPosts] = useState([]);
     useEffect(() => {
         const FilePostsCollection = collection(db, 'NotificationPosts');
-        const q = query(FilePostsCollection, orderBy("__name__"));
+        const q = query(FilePostsCollection, orderBy("__name__"), limit(10));
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             const FilePostsData = querySnapshot.docs.map((doc) => ({
                 id: doc.id,
@@ -19,12 +19,12 @@ function Notification() {
             console.log('Firestoreのデータ読み取り完了:', FilePostsData);
             setQuestionPosts(FilePostsData);
         });
-
+    
         return () => {
             unsubscribe();
         }
     }, []);
-
+    
     const PostCategory = ["kame_memo", "kame_exclamation", "kame_question", "kame_check"]
     const PostCategoryMark = ["📒", "⚠", "📝", "☑"]
 

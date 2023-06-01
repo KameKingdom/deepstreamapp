@@ -2,6 +2,7 @@
 
 :root {
   --main-button-color: #b7c5db;
+  --main-button-clicked-color: #99aac5;
 }
 
 @import url("kame_header.css");

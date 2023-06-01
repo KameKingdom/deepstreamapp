@@ -5,7 +5,6 @@ import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 
 function ScheduleDetail() {
-    useBlockBrowserBack();
     /* スケジュール情報変数 */
     const ScheduleInfo = useContext(ScheduleContext); // 共有変数の取得
 

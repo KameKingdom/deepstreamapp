@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { doc, updateDoc, setDoc, getDoc, addDoc } from 'firebase/firestore';
+import { doc, updateDoc, setDoc, getDoc} from 'firebase/firestore';
 import { db, auth } from '../firebase';
 import { Footer, Header } from '../PageParts';
 import { ReservationContext, useBlockBrowserBack } from '../App';
@@ -17,9 +17,11 @@ function AddReservation() {
     const [memo, setMemo] = useState(null);
     const [isalreadyuploaded, setIsAlreadyUploaded] = useState(false);
     const [isclicked, setIsClicked] = useState(false);
+    const [isReservationLimitReached, setIsReservationLimitReached] = useState(false); // 追加
 
-    const handleSelectChange1 = (e) => { setCategory(e.target.value); setIsAlreadyUploaded(""); setIsClicked(false); }
-    const handleSelectChange3 = (e) => { setMemo(e.target.value); setIsAlreadyUploaded(""); setIsClicked(false); }
+    const handleSelectChange1 = (e) => { setCategory(e.target.value); setIsAlreadyUploaded(false); setIsClicked(false); } // falseに変更
+    const handleSelectChange3 = (e) => { setMemo(e.target.value); setIsAlreadyUploaded(false); setIsClicked(false); } // falseに変更
+
     function PostButtonClick() {
         setIsClicked(true);
         handleUploadClick();
@@ -61,6 +63,14 @@ function AddReservation() {
         const postDocRef = doc(db, WeekDay, TimeSlot);
         const userDocRef = doc(db, "users", auth.currentUser.email);
 
+        // 追加: すでに予約が存在するかチェック
+        const reservationExists = await getDoc(postDocRef);
+        if (reservationExists.exists()) {
+            setIsReservationLimitReached(true);
+            setIsAlreadyUploaded(true);
+            return;
+        }
+
         let count = 0;
         if (DayOfWeekStr === ReservationInfo.WeekDay) { count = reservationNum; }
         else if (isNaN(reservationNum) || reservationNum <= 0) { count = 1; }
@@ -87,7 +97,7 @@ function AddReservation() {
             NickName: nickname
         });
 
-        setIsAlreadyUploaded("uploaded");
+        setIsAlreadyUploaded(true);
     };
 
 
@@ -124,8 +134,11 @@ function AddReservation() {
                         {canReserve && !isalreadyuploaded && !isclicked &&
                             <button to="/" class="kame_button_black" onClick={PostButtonClick}><p class="kame_font_002">予約</p></button>
                         }
-                        {!canReserve &&
+                        {!canReserve && !isReservationLimitReached && // 追加: 予約上限に達していない場合にエラーメッセージを表示
                             <p class="kame_font_002">予約は週に2回までです</p>
+                        }
+                        {isReservationLimitReached && // 追加: 予約上限に達した場合のエラーメッセージ
+                            <p class="kame_font_002">既に予約されました</p>
                         }
                         {
                             isclicked && !isalreadyuploaded &&
@@ -144,4 +157,4 @@ function AddReservation() {
     )
 }
 
-export default AddReservation
+export default AddReservation;

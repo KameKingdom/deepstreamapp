@@ -3,8 +3,6 @@ import HomePage from "./Home/HomePage";
 import Login from "./Register/Login";
 import Register from "./Register/Register";
 import TermsOfService from "./Document/TermsOfService";
-import RegisterInfo001 from "./Register/RegisterInfo001";
-import RegisterInfo002 from "./Register/RegisterInfo002";
 import Calendar from "./Home/Calendar";
 import Reservation from "./Home/Reservation";
 import Notification from "./Home/Notification";
@@ -18,6 +16,8 @@ import AdminLogin from "./Administrator/AdminLogin";
 import AlertReservation from "./Reservation/AlertReservation";
 import AdminSchedulePost from "./Administrator/AdminSchedulePost";
 import ScheduleDetail from "./Schedule/ScheduleDetail";
+import { doc, getDoc, getFirestore } from "firebase/firestore";
+import UserProfile from "./Register/UserProfile";
 
 const SettingInfo = {
   Year: "2023"
@@ -72,8 +72,7 @@ function App() {
 
           <Route exact path="/login" element={<Login />}></Route>
           <Route exact path="/register" element={<Register />}></Route>
-          <Route exact path="/register001" element={<RegisterInfo001 />}></Route>
-          <Route exact path="/register002" element={<RegisterInfo002 />}></Route>
+          <Route exact path="/userprofile" element={<UserProfile />}></Route>
           <Route exact path="/termsofservice" element={<TermsOfService />}></Route>
 
         </Routes>
@@ -102,4 +101,12 @@ function useBlockBrowserBack() {
   }, []);
 }
 
-export { App, useBlockBrowserBack };
+async function isUserDocumentExists(auth) {
+  const firestore = getFirestore();
+  const userDocRef = doc(firestore, 'users', auth.currentUser.email);
+  const docSnap = await getDoc(userDocRef);
+
+  return docSnap.exists();
+}
+
+export { App, useBlockBrowserBack, isUserDocumentExists };
