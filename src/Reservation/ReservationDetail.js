@@ -20,6 +20,7 @@ function ReservationDetail() {
   const [category, setCategory] = useState("");
   const [memo, setMemo] = useState("");
   const [nickname, setNickName] = useState("");
+  const [personalName, setPersonalName] = useState("");
   const TimeSlot = ReservationInfo.TimeSlot;
   const WeekDay = ReservationInfo.WeekDay;
 
@@ -56,6 +57,7 @@ function ReservationDetail() {
         setCategory(docData.Category);
         setMemo(docData.Memo);
         setNickName(docData.NickName);
+        setPersonalName(docData.PersonalName);
         setCanEdit(docData.PostUserMail === auth.currentUser.email);
       }
       docRef = doc(db, "users", auth.currentUser.email);
@@ -91,6 +93,15 @@ function ReservationDetail() {
         </p>
         <center>
           <table class="kame_table_001">
+            <tr>
+              <th>氏名</th>
+              {
+                personalName ? 
+                <td><p class="kame_font_001">{personalName}</p></td>
+                :
+                <td><p class="kame_font_001">匿名</p></td>
+              }
+            </tr>
             <tr>
               <th>ユーザー</th>
               <td><p class="kame_font_001">{nickname}</p></td>

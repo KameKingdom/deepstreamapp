@@ -16,11 +16,11 @@ function AddReservation() {
     const [category, setCategory] = useState("バンド");
     const [memo, setMemo] = useState(null);
     const [isalreadyuploaded, setIsAlreadyUploaded] = useState(false);
+    const [isAlreadyExisted, setIsAlreadyExisted] = useState(false);
     const [isclicked, setIsClicked] = useState(false);
-    const [isReservationLimitReached, setIsReservationLimitReached] = useState(false); // 追加
 
-    const handleSelectChange1 = (e) => { setCategory(e.target.value); setIsAlreadyUploaded(false); setIsClicked(false); } // falseに変更
-    const handleSelectChange3 = (e) => { setMemo(e.target.value); setIsAlreadyUploaded(false); setIsClicked(false); } // falseに変更
+    const handleSelectChange1 = (e) => { setCategory(e.target.value); setIsAlreadyUploaded(false); setIsClicked(false); }
+    const handleSelectChange3 = (e) => { setMemo(e.target.value); setIsAlreadyUploaded(false); setIsClicked(false); }
 
     function PostButtonClick() {
         setIsClicked(true);
@@ -28,8 +28,9 @@ function AddReservation() {
     }
 
     const [nickname, setNickName] = useState("");
+    const [personalname, setPersonalName] = useState("");
     const [reservationNum, setReservationNum] = useState(null);
-    const [canReserve, setCanReserve] = useState(false);
+    const [canReserve, setCanReserve] = useState(true);
 
     const [isloaded, setIsLoaded] = useState(false)
     useEffect(() => {
@@ -39,6 +40,7 @@ function AddReservation() {
             if (docSnap.exists()) {
                 const docData = docSnap.data();
                 setNickName(docData.NickName);
+                setPersonalName(docData.PersonalName);
                 setReservationNum(docData.ReservationNum);
                 setCanReserve(
                     isNaN(docData.ReservationNum) ||
@@ -66,8 +68,7 @@ function AddReservation() {
         // 追加: すでに予約が存在するかチェック
         const reservationExists = await getDoc(postDocRef);
         if (reservationExists.exists()) {
-            setIsReservationLimitReached(true);
-            setIsAlreadyUploaded(true);
+            setIsAlreadyExisted(true);
             return;
         }
 
@@ -92,6 +93,7 @@ function AddReservation() {
             PostUserMail: auth.currentUser.email,
             WeekDay: ReservationInfo.WeekDay,
             TimeSlot: ReservationInfo.TimeSlot,
+            PersonalName: personalname,
             Category: category,
             Memo: memo,
             NickName: nickname
@@ -131,13 +133,14 @@ function AddReservation() {
                             <textarea class="kame_textarea" onChange={handleSelectChange3} placeholder="(例) ずっと真夜中でいいのに。" minLength={"0"} maxLength={"20"} value={memo} />
                         </label>
                         <br /><br /><br />
+                        
                         {canReserve && !isalreadyuploaded && !isclicked &&
                             <button to="/" class="kame_button_black" onClick={PostButtonClick}><p class="kame_font_002">予約</p></button>
                         }
-                        {!canReserve && !isReservationLimitReached && // 追加: 予約上限に達していない場合にエラーメッセージを表示
+                        {!canReserve && // 追加: 予約上限に達していない場合にエラーメッセージを表示
                             <p class="kame_font_002">予約は週に2回までです</p>
                         }
-                        {isReservationLimitReached && // 追加: 予約上限に達した場合のエラーメッセージ
+                        {isAlreadyExisted && // 追加: 予約上限に達した場合のエラーメッセージ
                             <p class="kame_font_002">既に予約されました</p>
                         }
                         {

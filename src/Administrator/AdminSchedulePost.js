@@ -49,7 +49,7 @@ function AdminSchedulePost() {
     <>
       <Header />
       <center>
-        <p className="kame_font_003">イベント投稿画面</p>
+        <p className="kame_font_003">スケジュール投稿画面</p>
         <input type="date" ref={dateInputRef} onChange={handleSelectChange9}
           style={{
             width: "400px",

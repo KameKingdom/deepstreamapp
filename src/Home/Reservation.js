@@ -25,6 +25,8 @@ function Reservation() {
     const DayOfWeekStrIndex = DAYOFWEEKSTR.indexOf(DayOfWeekStr);
     const IsAvailableReservationDay = [];
 
+    const [reservationNum, setReservationNum] = useState("");
+
     for (let i = 0; i < DAYOFWEEKSTR.length; i++) {
         if (i <= DayOfWeekStrIndex - 1) {
             IsAvailableReservationDay.push(false);
@@ -43,6 +45,7 @@ function Reservation() {
                                 const docSnap = await getDoc(docRef);
                                 if (docSnap.exists()) {
                                     const docData = docSnap.data();
+                                    setReservationNum(docData.ReservationNum)
                                     return docData.PostUserMail;
                                 } else {
                                     return false;
@@ -117,6 +120,7 @@ function Reservation() {
                     </tr>
                 )}
             </table >
+            <p className='kame_font_001'>今週の利用回数 {reservationNum} / 2 回</p>
             <a href="http://deepstream.boo.jp/kame_kingdom/Documents/2023部室利用規約.pdf"><p style={{ fontSize: "1.7em", color: "green" }}>部室の利用規約</p></a>
             <Footer />
         </>

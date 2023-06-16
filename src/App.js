@@ -35,6 +35,7 @@ const ScheduleInfo = {
 
 const ReservationInfo = {
   NickName: "",   // 予約ユーザー名(v)
+  PersonalName: "", // 個人氏名
   UserEmail: "",  // 予約メール
   WeekDay: "",    // 曜日(v)
   TimeSlot: "",   // 時間帯(「朝練」的な)(v)

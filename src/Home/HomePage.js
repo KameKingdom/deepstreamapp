@@ -5,6 +5,7 @@ import { collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, updateDoc, 
 import { auth, db } from '../firebase';
 import moment from 'moment';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { Helmet } from 'react-helmet';
 
 function HomePage() {
     /* スプラッシュスクリーンの表示設定 */
@@ -57,10 +58,6 @@ function HomePage() {
         fetchFirestoreData();
     }, []);
 
-
-
-
-
     const imageUrls = [
         'http://deepstream.boo.jp/kame_kingdom/DeepMagazine/DeepMagazine003.jpg',
         'http://deepstream.boo.jp/kame_kingdom/DeepMagazine/DeepMagazine004.jpg',
@@ -78,12 +75,13 @@ function HomePage() {
 
     return (show ? (
         <div>
+            <Helmet><title>Deep Stream</title></Helmet>
             <div id="container">
                 <span></span>
                 <span></span>
                 <span></span>
                 <p style={{ fontSize: "2.0em" }}>Deep Stream</p>
-                <p style={{ fontSize: "1.5em" }}>ver 1.1.0</p>
+                <p style={{ fontSize: "1.5em" }}>ver 1.2.0</p>
             </div>
         </div>
     ) :
