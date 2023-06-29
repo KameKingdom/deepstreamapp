@@ -1,0 +1,54 @@
+[debug] [2023-06-29T16:11:25.377Z] ----------------------------------------------------------------------
+[debug] [2023-06-29T16:11:25.378Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\yudai\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2023-06-29T16:11:25.379Z] CLI Version:   12.2.1
+[debug] [2023-06-29T16:11:25.379Z] Platform:      win32
+[debug] [2023-06-29T16:11:25.379Z] Node Version:  v18.14.0
+[debug] [2023-06-29T16:11:25.385Z] Time:          Fri Jun 30 2023 01:11:25 GMT+0900 (日本標準時)
+[debug] [2023-06-29T16:11:25.385Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-06-29T16:11:25.389Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2023-06-29T16:11:25.523Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-06-29T16:11:25.524Z] > authorizing via signed-in user (deepstream.ksc@gmail.com)
+[debug] [2023-06-29T16:11:25.524Z] [iam] checking project deep-stream-ksc for permissions ["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2023-06-29T16:11:25.525Z] > refreshing access token with scopes: []
+[debug] [2023-06-29T16:11:25.526Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2023-06-29T16:11:25.526Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-06-29T16:11:25.692Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2023-06-29T16:11:25.693Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-06-29T16:11:25.706Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/deep-stream-ksc:testIamPermissions [none]
+[debug] [2023-06-29T16:11:25.706Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/deep-stream-ksc:testIamPermissions x-goog-quota-user=projects/deep-stream-ksc
+[debug] [2023-06-29T16:11:25.706Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/deep-stream-ksc:testIamPermissions {"permissions":["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-06-29T16:11:25.879Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2023-06-29T16:11:25.879Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2023-06-29T16:11:26.463Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/deep-stream-ksc:testIamPermissions 200
+[debug] [2023-06-29T16:11:26.464Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/deep-stream-ksc:testIamPermissions {"permissions":["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-06-29T16:11:26.465Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/deep-stream-ksc [none]
+[debug] [2023-06-29T16:11:26.856Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/deep-stream-ksc 200
+[debug] [2023-06-29T16:11:26.856Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/deep-stream-ksc {"projectId":"deep-stream-ksc","projectNumber":"523585296072","displayName":"Deep-Stream-KSC","name":"projects/deep-stream-ksc","resources":{"hostingSite":"deep-stream-ksc","realtimeDatabaseInstance":"deep-stream-ksc-default-rtdb","storageBucket":"deep-stream-ksc.appspot.com","locationId":"asia-northeast2"},"state":"ACTIVE","etag":"1_9595c513-9c99-46b5-9b09-deb83593dcba"}
+[info] 
+[info] === Deploying to 'deep-stream-ksc'...
+[info] 
+[info] i  deploying firestore, hosting 
+[info] i  firestore: reading indexes from firestore.indexes.json... 
+[info] i  cloud.firestore: checking firestore.rules for compilation errors... 
+[debug] [2023-06-29T16:11:26.899Z] >>> [apiv2][query] POST https://firebaserules.googleapis.com/v1/projects/deep-stream-ksc:test [none]
+[debug] [2023-06-29T16:11:26.899Z] >>> [apiv2][body] POST https://firebaserules.googleapis.com/v1/projects/deep-stream-ksc:test [omitted]
+[debug] [2023-06-29T16:11:27.293Z] <<< [apiv2][status] POST https://firebaserules.googleapis.com/v1/projects/deep-stream-ksc:test 200
+[debug] [2023-06-29T16:11:27.293Z] <<< [apiv2][body] POST https://firebaserules.googleapis.com/v1/projects/deep-stream-ksc:test {}
+[info] +  cloud.firestore: rules file firestore.rules compiled successfully 
+[debug] [2023-06-29T16:11:27.303Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/deep-stream-ksc/versions [none]
+[debug] [2023-06-29T16:11:27.303Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/deep-stream-ksc/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2023-06-29T16:11:28.020Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/deep-stream-ksc/versions 200
+[debug] [2023-06-29T16:11:28.020Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/deep-stream-ksc/versions {"name":"projects/523585296072/sites/deep-stream-ksc/versions/6bb5ee2da9f40ade","status":"CREATED","config":{},"labels":{"deployment-tool":"cli-firebase"}}
+[info] i  firestore: deploying indexes... 
+[debug] [2023-06-29T16:11:28.023Z] >>> [apiv2][query] GET https://firebaserules.googleapis.com/v1/projects/deep-stream-ksc/releases pageSize=10&pageToken=
+[debug] [2023-06-29T16:11:28.025Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/deep-stream-ksc/databases/(default)/collectionGroups/-/indexes [none]
+[debug] [2023-06-29T16:11:28.202Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/deep-stream-ksc/databases/(default)/collectionGroups/-/indexes 200
+[debug] [2023-06-29T16:11:28.202Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/deep-stream-ksc/databases/(default)/collectionGroups/-/indexes {}
+[debug] [2023-06-29T16:11:28.203Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/deep-stream-ksc/databases/(default)/collectionGroups/-/fields?filter=indexConfig.usesAncestorConfig=false OR ttlConfig:* [none]
+[debug] [2023-06-29T16:11:28.314Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/deep-stream-ksc/databases/(default)/collectionGroups/-/fields?filter=indexConfig.usesAncestorConfig=false OR ttlConfig:* 200
+[debug] [2023-06-29T16:11:28.315Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/deep-stream-ksc/databases/(default)/collectionGroups/-/fields?filter=indexConfig.usesAncestorConfig=false OR ttlConfig:* {"fields":[{"name":"projects/deep-stream-ksc/databases/(default)/collectionGroups/__default__/fields/*","indexConfig":{"indexes":[{"queryScope":"COLLECTION","fields":[{"fieldPath":"*","order":"ASCENDING"}],"state":"READY"},{"queryScope":"COLLECTION","fields":[{"fieldPath":"*","order":"DESCENDING"}],"state":"READY"},{"queryScope":"COLLECTION","fields":[{"fieldPath":"*","arrayConfig":"CONTAINS"}],"state":"READY"}]}}]}
+[info] +  firestore: deployed indexes in firestore.indexes.json successfully for (default) database 
+[debug] [2023-06-29T16:11:29.189Z] <<< [apiv2][status] GET https://firebaserules.googleapis.com/v1/projects/deep-stream-ksc/releases 200
+[debug] [2023-06-29T16:11:29.189Z] <<< [apiv2][body] GET https://firebaserules.googleapis.com/v1/projects/deep-stream-ksc/releases {"releases":[{"name":"projects/deep-stream-ksc/releases/cloud.firestore","rulesetName":"projects/deep-stream-ksc/rulesets/152b4ce9-c7a7-490b-9028-8429e74b2fd2","createTime":"2023-05-01T05:19:53.476993Z","updateTime":"2023-06-16T08:01:34.553870Z"},{"name":"projects/deep-stream-ksc/releases/firebase.storage/deep-stream-ksc.appspot.com","rulesetName":"projects/deep-stream-ksc/rulesets/8f486152-f5c4-4b6b-8bee-ae14e9731ed6","createTime":"2023-05-01T05:37:15.453280Z","updateTime":"2023-06-16T09:22:38.835774Z"}]}
+[debug] [2023-06-29T16:11:29.210Z] >>> [apiv2][query] GET https://firebaserules.googleapis.com/v1/projects/deep-stream-ksc/rulesets/152b4ce9-c7a7-490b-9028-8429e74b2fd2 [none]
