@@ -132,7 +132,7 @@ function EmailRegister() {
             <form onSubmit={registerWithEmail}>
                 <input
                     type="email"
-                    placeholder="メールアドレス"
+                    placeholder="メールアドレス(関学用)"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
