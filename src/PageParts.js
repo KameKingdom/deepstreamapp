@@ -44,8 +44,8 @@ function Footer() {
                     <>
                         < div class="tab-bar" >
                             <Link to="/reservation" class="tab">部室予約</Link>
+                            <Link to="/key" class="tab">鍵管理</Link>
                             <Link to="/calendar" class="tab">イベント</Link>
-                            <Link to="/notification" class="tab">提出書類</Link>
                             <Link to="/tool" class="tab">ツール</Link>
                         </div >
                         <div class="footer">
@@ -55,8 +55,8 @@ function Footer() {
                     <>
                         < div class="tab-bar" >
                             <Link to="/login" class="tab">部室予約</Link>
+                            <Link to="/login" class="tab">鍵管理</Link>
                             <Link to="/login" class="tab">イベント</Link>
-                            <Link to="/login" class="tab">提出書類</Link>
                             <Link to="/login" class="tab">ツール</Link>
                         </div >
                         <div class="footer">

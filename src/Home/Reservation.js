@@ -120,7 +120,6 @@ function Reservation() {
                     </tr>
                 )}
             </table >
-            <p className='kame_font_001'>今週の利用回数 {reservationNum} / 2 回</p>
             <a href="http://deepstream.boo.jp/kame_kingdom/Documents/2023部室利用規約.pdf"><p style={{ fontSize: "1.7em", color: "green" }}>部室の利用規約</p></a>
             <Footer />
         </>

@@ -6,9 +6,10 @@ import TermsOfService from "./Document/TermsOfService";
 import Calendar from "./Home/Calendar";
 import Reservation from "./Home/Reservation";
 import Notification from "./Home/Notification";
+import Key from "./Home/Key";
 import Tool from "./Home/Tool";
 import AddReservation from "./Reservation/AddReservation";
-import { createContext, useCallback, useEffect } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 import ReservationDetail from "./Reservation/ReservationDetail";
 import AdminEventPost from "./Administrator/AdminEventPost";
 import AdminHome from "./Administrator/AdminHome";
@@ -18,6 +19,8 @@ import AdminSchedulePost from "./Administrator/AdminSchedulePost";
 import ScheduleDetail from "./Schedule/ScheduleDetail";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
 import UserProfile from "./Register/UserProfile";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "./firebase";
 
 const SettingInfo = {
   Year: "2023"
@@ -44,6 +47,7 @@ const ReservationInfo = {
   Memo: "",       // メモ
 }
 
+
 export const ScheduleContext = createContext(ScheduleInfo);
 export const ReservationContext = createContext(ReservationInfo);
 export const SettingContext = createContext(SettingInfo);
@@ -65,6 +69,7 @@ function App() {
           <Route exact path="/adminlogin" element={<AdminLogin />}></Route>
 
           <Route exact path="/calendar" element={<Calendar />}></Route>
+          <Route exact path="/key" element={<Key />}></Route>
           <Route exact path="/scheduleDetail" element={<ScheduleDetail />}></Route>
           <Route exact path="/notification" element={<Notification />}></Route>
           <Route exact path="/tool" element={<Tool />}></Route>

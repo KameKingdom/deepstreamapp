@@ -5,32 +5,14 @@ import { collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, updateDoc, 
 import { auth, db } from '../firebase';
 import moment from 'moment';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { Helmet } from 'react-helmet';
-import { useEffect, useState } from 'react';
-import { getStorage, ref, listAll } from 'firebase/storage';
 
 function HomePage() {
     /* スプラッシュスクリーンの表示設定 */
     const [show, setShow] = useState(true); // スプラッシュスクリーンをshowするか否か
-    const [imageUrls, setImageUrls] = useState([]);
-
-    useEffect(() => {
-        const storageRef = firebase.storage().ref('DeepMagazine');
-      
-        storageRef.listAll().then((res) => {
-          const promises = res.items.map((itemRef) => itemRef.getDownloadURL());
-          Promise.all(promises).then((urls) => {
-            setImageUrls(urls);
-      
-            const timer = setTimeout(() => {
-              setShow(false);
-            }, 3000);
-      
-            return () => clearTimeout(timer);
-          });
-        });
-      }, []);
-      
+    useEffect(() => { // 3000m秒だけ表示する
+        const timer = setTimeout(() => { setShow(false); }, 3000);
+        return () => clearTimeout(timer);
+    }, []);
 
     useEffect(() => {
         async function fetchFirestoreData() {
@@ -48,7 +30,6 @@ function HomePage() {
             if (docSnap.exists() && docSnap.data().LastResetDate === sunday.format('YYYYMMDD')) {
                 return;
             }
-
             console.log("Reset Reservation Data");
             const batch = writeBatch(db);
             const settingRef = doc(db, "Setting", "Reservation");
@@ -76,6 +57,12 @@ function HomePage() {
         fetchFirestoreData();
     }, []);
 
+    const imageUrls = [
+        'http://deepstream.boo.jp/kame_kingdom/DeepMagazine/DeepMagazine003.jpg',
+        'http://deepstream.boo.jp/kame_kingdom/DeepMagazine/DeepMagazine004.jpg',
+        'http://deepstream.boo.jp/kame_kingdom/DeepMagazine/DeepMagazine001.jpg',
+        'http://deepstream.boo.jp/kame_kingdom/DeepMagazine/DeepMagazine002.jpg'
+    ];
     const [imageUrl, setImageUrl] = useState(imageUrls[0]);
     const [page, setPage] = useState(0);
 
@@ -87,13 +74,12 @@ function HomePage() {
 
     return (show ? (
         <div>
-            <Helmet><title>Deep Stream</title></Helmet>
             <div id="container">
                 <span></span>
                 <span></span>
                 <span></span>
                 <p style={{ fontSize: "2.0em" }}>Deep Stream</p>
-                <p style={{ fontSize: "1.5em" }}>ver 1.2.1</p>
+                <p style={{ fontSize: "1.5em" }}>ver 2.0.0</p>
             </div>
         </div>
     ) :
